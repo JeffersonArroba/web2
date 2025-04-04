@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATÁLOGO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+        .product h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .price {
+            color: #e60000;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #d1005d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #cart {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #cart ul {
+            list-style: none;
+            padding: 0;
+        }
+        #cart ul li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .remove-item {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .checkout {
+            display: block;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            border: none;
+            transition: background 0.3s;
+        }
+        .checkout:hover {
+            background: #1e6b30;
+        }
+        .user-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .user-info input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .user-info label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PRODUCTOS EN STOCK</h1>
+        <div class="products" id="product-list"></div>
+        
+        <div id="cart">
+            <h2>Carrito de Compras</h2>
+            <ul id="cart-items"></ul>
+            <p><strong>Total: $<span id="total-price">0</span></strong></p>
+            <button class="checkout" id="finalizar-compra">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="user-info-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Información de Compra</h2>
+            <div class="user-info">
+                <label for="first-name">Nombres:</label>
+                <input type="text" id="first-name" placeholder="Ingrese sus nombres" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras y espacios">
+
+                <label for="last-name">Apellidos:</label>
+                <input type="text" id="last-name" placeholder="Ingrese sus apellidos" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras y espacios">
+
+                <label for="id-number">Número de Cédula:</label>
+                <input type="text" id="id-number" placeholder="Ingrese su número de cédula" required maxlength="10" pattern="\d{1,10}" title="Solo números (máximo 10)">
+
+                <label for="phone-number">Número de Teléfono:</label>
+                <input type="text" id="phone-number" placeholder="Ingrese su número de teléfono" required maxlength="10" pattern="\d{1,10}" title="Solo números (máximo 10)">
+
+                <label for="address">Dirección:</label>
+                <input type="text" id="address" placeholder="Ingrese su dirección" required>
+
+                <button class="checkout" id="download-invoice">Descargar Factura</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const products = [
+                { name: "AMAZON FIRE TV STICK 4K", price: 60, img: "fire tv.jpg" },
+                { name: "JBL TUNE 760 NC", price: 70, img: "JBL TUNE 760 NC.jpg" },
+                { name: "PLAY STATION 5", price: 750.49, img: "PS5.jpg" },
+                { name: "CONTROL PS5", price: 53.79, img: "MPS5.jpg" },
+                { name: "TIRA LED NEON ", price: 18.49, img: "NEON.jpg" },
+                { name: "MOUSE GAMER ONIKUMA CW925", price: 19.99, img: "MOUSE.jpg" },
+                { name: "TECLADO RED DRAGON KURAMA", price: 50.99, img: "TECLADO.png" },
+                { name: "JBL PARTYBOX STAGE 320", price: 619.99, img: "JBLP.jpg" }
+            ];
+            
+            const productList = document.getElementById("product-list");
+            const cart = {};
+            const cartItems = document.getElementById("cart-items");
+            const totalPriceElement = document.getElementById("total-price");
+            
+            products.forEach(product => {
+                const div = document.createElement("div");
+                div.classList.add("product");
+                div.setAttribute("data-name", product.name);
+                div.setAttribute("data-price", product.price);
+                div.innerHTML = ` 
+                    <img src="${product.img}" alt="${product.name}"> 
+                    <h2>${product.name}</h2>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <button class="button add-to-cart">Añadir al carrito</button>
+                `;
+                productList.appendChild(div);
+            });
+
+            document.addEventListener("click", function(event) {
+                if (event.target.classList.contains("add-to-cart")) {
+                    const product = event.target.parentElement;
+                    const name = product.getAttribute("data-name");
+                    const price = parseFloat(product.getAttribute("data-price"));
+                    if (cart[name]) {
+                        cart[name].quantity++;
+                    } else {
+                        cart[name] = { price, quantity: 1 };
+                    }
+                    updateCart();
+                }
+                if (event.target.classList.contains("remove-item")) {
+                    const name = event.target.getAttribute("data-name");
+                    if (cart[name]) {
+                        cart[name].quantity--;
+                        if (cart[name].quantity <= 0) {
+                            delete cart[name];
+                        }
+                    }
+                    updateCart();
+                }
+            });
+
+            function updateCart() {
+                cartItems.innerHTML = "";
+                let total = 0;
+                for (const name in cart) {
+                    const item = cart[name];
+                    total += item.price * item.quantity;
+                    const li = document.createElement("li");
+                    li.innerHTML = `${name} - $${item.price.toFixed(2)} x ${item.quantity} 
+                        <button class='remove-item' data-name='${name}'>Quitar</button>`;
+                    cartItems.appendChild(li);
+                }
+                totalPriceElement.textContent = total.toFixed(2);
+            }
+
+            // Modal logic
+            const modal = document.getElementById("user-info-modal");
+            const closeBtn = document.querySelector(".close");
+            const finalizePurchaseBtn = document.getElementById("finalizar-compra");
+
+            finalizePurchaseBtn.addEventListener("click", function() {
+                modal.style.display = "block";
+            });
+
+            closeBtn.addEventListener("click", function() {
+                modal.style.display = "none";
+            });
+
+            window.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            // Validación en tiempo real
+            document.getElementById("first-name").addEventListener("input", function () {
+                this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+            });
+
+            document.getElementById("last-name").addEventListener("input", function () {
+                this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+            });
+
+            document.getElementById("id-number").addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            });
+
+            document.getElementById("phone-number").addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            });
+
+            // Descargar factura
+            document.getElementById("download-invoice").addEventListener("click", function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                const firstName = document.getElementById("first-name").value;
+                const lastName = document.getElementById("last-name").value;
+                const idNumber = document.getElementById("id-number").value;
+                const phoneNumber = document.getElementById("phone-number").value;
+                const address = document.getElementById("address").value;
+
+                if (!firstName || !lastName || !idNumber || !phoneNumber || !address) {
+                    alert("Por favor, complete todos los campos obligatorios.");
+                    return;
+                }
+
+                const logo = "Logo.jpg";
+                doc.addImage(logo, "JPEG", 160, 10, 35, 35); 
+
+                doc.setFontSize(22);
+                doc.text("Factura de Compra - LEYNOX IMPORT", 20, 20);
+                doc.setFontSize(12);
+                doc.text("Nombre: " + firstName + " " + lastName, 20, 40);
+                doc.text("Cédula: " + idNumber, 20, 50);
+                doc.text("Teléfono: " + phoneNumber, 20, 60);
+                doc.text("Dirección: " + address, 20, 70);
+
+                let y = 80;
+                let total = 0;
+
+                doc.setFontSize(12);
+                doc.rect(20, y, 25, 10); 
+                doc.text("Cantidad", 22, y + 7);
+                doc.rect(45, y, 85, 10); 
+                doc.text("Artículo", 47, y + 7);
+                doc.rect(130, y, 30, 10); 
+                doc.text("Precio", 133, y + 7);
+                doc.rect(160, y, 30, 10); 
+                doc.text("Total", 163, y + 7);
+
+                y += 15;
+                doc.line(20, y, 200, y);
+
+                y += 10;
+                for (const name in cart) {
+                    const item = cart[name];
+                    const itemTotal = item.price * item.quantity;
+
+                    doc.rect(20, y, 25, 10);
+                    doc.text(item.quantity.toString(), 22, y + 7);
+
+                    doc.rect(45, y, 85, 10);
+                    doc.text(name, 47, y + 7);
+
+                    doc.rect(130, y, 30, 10);
+                    doc.text("$" + item.price.toFixed(2), 133, y + 7);
+
+                    doc.rect(160, y, 30, 10);
+                    doc.text("$" + itemTotal.toFixed(2), 163, y + 7);
+
+                    y += 10;
+                    total += itemTotal;
+                    doc.setFontSize(10);
+                }
+
+                doc.setFontSize(12);
+                doc.text("Total a Pagar: $" + total.toFixed(2), 130, y + 10);
+                doc.save("factura.pdf");
+                localStorage.removeItem("cart");
+                modal.style.display = "none";
+            });
+        });
+    </script>
+</body>
+</html>
+
+

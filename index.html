@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEYNOX IMPORT</title>
+    <style>
+         .image-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .service-img {
+        width: 200px;  /* Aumento de tamaño */
+        height: 200px; /* Aumento de tamaño */
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #fff;
+        transition: transform 0.3s ease-in-out; /* Efecto de transición */
+    }
+
+    .service-img:hover {
+        transform: scale(1.1); /* Efecto de ampliación al pasar el mouse */
+    }
+
+    /* Responsividad */
+    @media (max-width: 768px) {
+        .service-img {
+            width: 100px;
+            height: 130px;
+        }
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            scroll-behavior: smooth;
+            overflow-x: hidden; 
+        }
+        .header {
+            background: #6d013f;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .menu-btn {
+            display: block;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px;
+            background-color: #6d013f;
+            color: white;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            background-color: #6d013f;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+            border-top: 1px solid white;
+        }
+        nav a:hover {
+            background-color: #d1005d;
+        }
+        .main-banner, section {
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .main-banner {
+            background-image: url('Logo 2.png');
+        }
+        #nosotros, #servicios, #contacto {
+            background-image: url('Nosotros.png'); 
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.5); 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .main-banner h1, .price {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .price {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 20px;
+            background: white;
+            color: #d1005d;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .whatsapp {
+            background-color: #25D366;
+            color: white;
+        }
+        .whatsapp:hover {
+            background-color: #1ebe5d;
+        }
+        /* Menú desplegable para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+            nav.active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">LEYNOX IMPORT</div>
+    </div>
+    <div class="main-banner" id="inicio">
+        <h1>Reciba sus paquetes desde cualquier tienda a Ecuador</h1>
+        <p><span class="price">A tan solo $5.50</span></p>
+        <div class="buttons">
+            <a href="#contacto" class="button">Cotizar Paquete</a>
+            <a href="#servicios" class="button">Servicios</a>
+        </div>
+    </div>
+    <section id="nosotros">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Sobre Nosotros</h2>
+            <p>Somos una empresa dedicada a la importación y venta de productos.</p>
+            <p>Nuestro objetivo es brindarle a nuestros clientes un servicio rápido, cómodo y eficiente al momento de comprar o importar.</p>
+        </div>
+    </section>
+    <section id="servicios">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Nuestros Servicios</h2>
+            <p>Importamos artículos de las tiendas SHEIN, AMAZON Y TEMU.</p>
+            <p>Vendemos artículos tecnológicos al mejor precio, esto puedes verlo en nuestro catálogo.</p>
+            <div class="image-container">
+                <a href="https://www.shein.com" target="_blank">
+                    <img src="shein.jpg" alt="Servicio 1" class="service-img">
+                </a>
+                <a href="https://www.amazon.com" target="_blank">
+                    <img src="Amazon.jpg" alt="Servicio 2" class="service-img">
+                </a>
+                <a href="https://www.temu.com" target="_blank">
+                    <img src="temu.png" alt="Servicio 3" class="service-img">
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+    
+        .service-img {
+            width: 150px;  /* Tamaño carnet aproximado */
+            height: 200px; /* Tamaño carnet aproximado */
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #fff;
+        }
+    </style>
+    
+    <section id="contacto">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Contacto</h2>
+            <p>Para cotizaciones póngase en contacto con nosotros tocando el botón CONTACTO y para comprar productos toque el botón PRODUCTOS.</p>
+            <a href="productos.html" class="button">PRODUCTOS</a>
+            <a href="https://wa.me/+593981800617" target="_blank" class="button whatsapp">CONTACTO</a>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
+
+
+
+
